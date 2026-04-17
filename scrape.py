@@ -21,10 +21,16 @@ from typing import List, Dict, Tuple, Optional
 from playwright.sync_api import sync_playwright
 
 BASE = Path(__file__).parent
-STORAGE = BASE / "storage_state.json"
 OUT_DIR = Path(os.environ.get("OUTPUT_DIR", BASE))
 OUT_INTERNAL = OUT_DIR / "ranking_realtime_internal.json"
 OUT_LIVERS = OUT_DIR / "ranking_realtime_livers.json"
+
+# Agencies to scrape — each with its own Backstage session file.
+# Alpha=101020 (bcode), Ulysses=100712 (grove). Add more here if needed.
+AGENCIES = [
+    ("alpha", BASE / "storage_state.json"),
+    ("ulysses", BASE / "storage_state_ulysses.json"),
+]
 
 WORKSPACE_URL = "https://live-backstage.tiktok.com/portal/workspace/"
 REVENUE_URL_TMPL = "https://live-backstage.tiktok.com/portal/revenue/task?Month={month}&viewTab=by_creator"
@@ -172,12 +178,25 @@ def fetch_all_by_ui(page) -> Tuple[list, dict]:
 
 
 def build_records(details: list, infos: dict) -> list:
-    """Merge detail + info, compute rank by TotalDiamonds desc."""
+    """Merge detail + info, dedupe by AnchorID, compute rank by TotalDiamonds desc."""
+    # Dedupe — prefer records where IsCurrentAgencyAnchor=true (home agency)
+    by_id: dict = {}
+    for d in details:
+        aid = d.get("AnchorID")
+        if not aid:
+            continue
+        prev = by_id.get(aid)
+        if prev is None or (d.get("IsCurrentAgencyAnchor") and not prev.get("IsCurrentAgencyAnchor")):
+            by_id[aid] = d
+    details = list(by_id.values())
+
     records = []
     for d in details:
         anchor_id = d.get("AnchorID")
         info = infos.get(anchor_id, {})
-        manager = d.get("GroupManagerName") or d.get("AgentName") or ""
+        # AgentName = agency-level assignment (use for internal-manager filtering)
+        # GroupManagerName = sub-group leader (often external like HIKE's m.kagami)
+        manager = d.get("AgentName") or d.get("GroupManagerName") or ""
         records.append({
             "anchorId": anchor_id,
             "nickname": info.get("nickname", ""),
@@ -250,47 +269,70 @@ def build_livers_json(records: list, updated_at: str) -> dict:
     }
 
 
+def scrape_one_agency(p, name: str, storage_path: Path, headless: bool) -> Tuple[list, dict]:
+    """Launch browser with the given session, fetch all creators for that agency.
+    Returns (details, infos). Refreshes storage file to keep cookies alive."""
+    browser = p.chromium.launch(headless=headless)
+    context = browser.new_context(storage_state=str(storage_path), locale="ja-JP")
+    page = context.new_page()
+    try:
+        month = current_month_yyyymm()
+        print(f"[{name}] month={month}, fetching SettleSubJobID…")
+        sub_job_id = fetch_settle_sub_job_id(page, month)
+        print(f"[{name}] SettleSubJobID={sub_job_id}")
+        details, infos = fetch_all_by_ui(page)
+        print(f"[{name}] fetched {len(details)} creators")
+        # Refresh session state (cookies may rotate)
+        context.storage_state(path=str(storage_path))
+        return details, infos
+    finally:
+        browser.close()
+
+
 def main():
-    if not STORAGE.exists():
-        print(f"❌ セッションファイルがありません: {STORAGE}")
-        print("先に `python3 login.py` を実行してください")
+    available = [(name, path) for name, path in AGENCIES if path.exists()]
+    if not available:
+        print(f"❌ セッションファイルが1つもありません")
+        print(f"先に `python3 login.py` を実行してください（bcodeでログイン）")
         sys.exit(1)
+
+    print(f"[main] scraping {len(available)} agencies: {[n for n, _ in available]}")
 
     headless_env = os.environ.get("HEADLESS", "1")
     headless = headless_env != "0"
 
+    all_details = []
+    all_infos: dict = {}
+
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=headless)
-        context = browser.new_context(storage_state=str(STORAGE), locale="ja-JP")
-        page = context.new_page()
+        for name, path in available:
+            try:
+                details, infos = scrape_one_agency(p, name, path, headless)
+                all_details.extend(details)
+                all_infos.update(infos)
+            except Exception as e:
+                print(f"[{name}] ERROR: {e}")
+                # Don't abort — other agencies may still succeed
+                if len(available) == 1:
+                    raise
 
-        month = current_month_yyyymm()
-        print(f"[scrape] month={month}, fetching SettleSubJobID…")
-        sub_job_id = fetch_settle_sub_job_id(page, month)
-        print(f"[scrape] SettleSubJobID={sub_job_id}")
+    print(f"[main] total {len(all_details)} creators across {len(available)} agencies")
 
-        details, infos = fetch_all_by_ui(page)
-        print(f"[scrape] fetched {len(details)} creators")
+    records = build_records(all_details, all_infos)
+    updated_at = datetime.now(JST).isoformat(timespec="seconds")
 
-        records = build_records(details, infos)
-        updated_at = datetime.now(JST).isoformat(timespec="seconds")
+    internal = build_internal_json(records, updated_at)
+    livers = build_livers_json(records, updated_at)
 
-        internal = build_internal_json(records, updated_at)
-        livers = build_livers_json(records, updated_at)
-
-        OUT_DIR.mkdir(parents=True, exist_ok=True)
-        write_internal = os.environ.get("OUTPUT_INTERNAL", "1") != "0"
-        if write_internal:
-            OUT_INTERNAL.write_text(json.dumps(internal, ensure_ascii=False, indent=2))
-            print(f"[scrape] wrote {OUT_INTERNAL.name} ({internal['totalCount']} creators, {internal['liveNow']} live)")
-        else:
-            print(f"[scrape] skipped internal (OUTPUT_INTERNAL=0): would be {internal['totalCount']} creators, {internal['liveNow']} live")
-        OUT_LIVERS.write_text(json.dumps(livers, ensure_ascii=False, indent=2))
-        print(f"[scrape] wrote {OUT_LIVERS.name} (top {len(livers['creators'])})")
-
-        # Refresh storage in case cookies rotated
-        context.storage_state(path=str(STORAGE))
-        browser.close()
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    write_internal = os.environ.get("OUTPUT_INTERNAL", "1") != "0"
+    if write_internal:
+        OUT_INTERNAL.write_text(json.dumps(internal, ensure_ascii=False, indent=2))
+        print(f"[main] wrote {OUT_INTERNAL.name} ({internal['totalCount']} creators, {internal['liveNow']} live)")
+    else:
+        print(f"[main] skipped internal (OUTPUT_INTERNAL=0): would be {internal['totalCount']} creators, {internal['liveNow']} live")
+    OUT_LIVERS.write_text(json.dumps(livers, ensure_ascii=False, indent=2))
+    print(f"[main] wrote {OUT_LIVERS.name} (top {len(livers['creators'])})")
 
 
 if __name__ == "__main__":

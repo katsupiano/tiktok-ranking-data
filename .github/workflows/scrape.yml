@@ -31,8 +31,20 @@ jobs:
           pip install -r requirements.txt
           playwright install --with-deps chromium
 
-      - name: Restore storage state from secret (gzip+base64)
+      - name: Restore storage state — alpha (required)
         run: echo "${{ secrets.SESSION_STATE_B64 }}" | base64 -d | gunzip > storage_state.json
+        shell: bash
+
+      - name: Restore storage state — ulysses (optional)
+        env:
+          ULYSSES: ${{ secrets.SESSION_STATE_ULYSSES_B64 }}
+        run: |
+          if [ -n "$ULYSSES" ]; then
+            echo "$ULYSSES" | base64 -d | gunzip > storage_state_ulysses.json
+            echo "ulysses session restored"
+          else
+            echo "ulysses session not configured yet — scraper will skip"
+          fi
         shell: bash
 
       - name: Run scraper (livers only — internal handled separately later)

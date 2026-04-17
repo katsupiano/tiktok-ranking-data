@@ -1,4 +1,5 @@
 storage_state.json
+storage_state_*.json
 /ranking_realtime_*.json
 out/
 __pycache__/
