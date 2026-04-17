@@ -279,9 +279,13 @@ def main():
         livers = build_livers_json(records, updated_at)
 
         OUT_DIR.mkdir(parents=True, exist_ok=True)
-        OUT_INTERNAL.write_text(json.dumps(internal, ensure_ascii=False, indent=2))
+        write_internal = os.environ.get("OUTPUT_INTERNAL", "1") != "0"
+        if write_internal:
+            OUT_INTERNAL.write_text(json.dumps(internal, ensure_ascii=False, indent=2))
+            print(f"[scrape] wrote {OUT_INTERNAL.name} ({internal['totalCount']} creators, {internal['liveNow']} live)")
+        else:
+            print(f"[scrape] skipped internal (OUTPUT_INTERNAL=0): would be {internal['totalCount']} creators, {internal['liveNow']} live")
         OUT_LIVERS.write_text(json.dumps(livers, ensure_ascii=False, indent=2))
-        print(f"[scrape] wrote {OUT_INTERNAL.name} ({internal['totalCount']} creators, {internal['liveNow']} live)")
         print(f"[scrape] wrote {OUT_LIVERS.name} (top {len(livers['creators'])})")
 
         # Refresh storage in case cookies rotated

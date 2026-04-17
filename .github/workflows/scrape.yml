@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   scrape:
@@ -37,18 +37,18 @@ jobs:
 
       - name: Run scraper
         env:
-          OUTPUT_DIR: docs
+          OUTPUT_DIR: out
           HEADLESS: "1"
         run: python3 scrape.py
 
-      - name: Commit updated JSON
+      - name: Upload to Cloudflare R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: update ranking $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push
-          fi
+          pip install awscli
+          aws s3 cp out/ranking_realtime_livers.json  s3://$R2_BUCKET/ranking_realtime_livers.json  --endpoint-url "$R2_ENDPOINT" --content-type "application/json; charset=utf-8" --cache-control "public, max-age=30"
+          aws s3 cp out/ranking_realtime_internal.json s3://$R2_BUCKET/ranking_realtime_internal.json --endpoint-url "$R2_ENDPOINT" --content-type "application/json; charset=utf-8" --cache-control "public, max-age=30"
+
