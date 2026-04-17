@@ -33,7 +33,10 @@ AGENCIES = [
 ]
 
 WORKSPACE_URL = "https://live-backstage.tiktok.com/portal/workspace/"
-REVENUE_URL_TMPL = "https://live-backstage.tiktok.com/portal/revenue/task?Month={month}&viewTab=by_creator"
+# アクティブ度インセンティブ task view — this lens populates BroadcastDuration (hours).
+# The default overview view returns BroadcastDuration=0. TaskID is stable across months.
+ACTIVITY_TASK_ID = "7610716343062757387"
+REVENUE_URL_TMPL = f"https://live-backstage.tiktok.com/portal/revenue/task?Month={{month}}&TaskID={ACTIVITY_TASK_ID}&subViewTab=EligibleAnchor&viewTab=by_creator"
 API_PATH = "/creators/live/union_platform_api/agency/task/get_anchor_settle_detail_v2/"
 
 # Filtering rules (aligned with existing livers.html)
@@ -74,10 +77,10 @@ def fetch_settle_sub_job_id(page, month: str) -> str:
     # Wait for Backstage to make its own detail request — this confirms interceptors are initialized
     with page.expect_response(
         lambda r: "get_anchor_settle_detail_v2" in r.url and r.status == 200,
-        timeout=30000,
+        timeout=60000,
     ):
         page.goto(url, wait_until="domcontentloaded")
-        page.wait_for_url(lambda u: "SettleSubJobID=" in u, timeout=15000)
+        page.wait_for_url(lambda u: "SettleSubJobID=" in u, timeout=30000)
 
     from urllib.parse import urlparse, parse_qs
     qs = parse_qs(urlparse(page.url).query)
@@ -127,12 +130,21 @@ def fetch_all_by_ui(page) -> Tuple[list, dict]:
     time.sleep(1.0)
     print("[ui] selecting 100 per page…")
     page.get_by_role("option", name="1ページあたりのアイテム数：100").click(timeout=10000)
-    time.sleep(2)
+    time.sleep(3)
 
     # Click Next once to reliably apply Limit=100 (observed behavior: Limit takes effect
-    # on the next navigation action, not on the select itself)
-    page.locator('li.semi-page-next[aria-label="Next"]').click(timeout=10000)
-    if not wait_for_offset(0, timeout_sec=15):
+    # on the next navigation action, not on the select itself).
+    # Retry because on some views the Next button takes longer to become clickable.
+    for attempt in range(3):
+        try:
+            page.locator('li.semi-page-next[aria-label="Next"]:not([aria-disabled="true"])').click(timeout=10000)
+            break
+        except Exception as e:
+            if attempt == 2:
+                raise
+            print(f"[ui] Next click attempt {attempt+1} failed, retrying…")
+            time.sleep(2)
+    if not wait_for_offset(0, timeout_sec=20):
         raise RuntimeError("Failed to get page 1 at Limit=100")
 
     total = next(c["Total"] for c in collected if c.get("Limit") == 100)
@@ -210,7 +222,7 @@ def build_records(details: list, infos: dict) -> list:
             "lastMonthDiamonds": int(d.get("LastMonthTotalDiamonds", 0) or 0),
             "pkDiamondsMtd": int(d.get("PkIncomeDiamondMtd", 0) or 0),
             "broadcastDays": d.get("BroadcastDays", 0),
-            "broadcastDurationSec": d.get("BroadcastDuration", 0),
+            "broadcastDurationHours": d.get("BroadcastDuration", 0),
             "contributionBonusUSD": d.get("ContributionBonusUSD", 0),
             "lastMonthContributionBonusUSD": d.get("LastMonthContributionBonusUSD", 0),
             "group": d.get("GroupName", ""),
