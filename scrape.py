@@ -177,7 +177,7 @@ def fetch_all_by_ui(page) -> Tuple[list, dict]:
     return all_details, all_infos
 
 
-AGENCY_SOURCE = {"101020": "アルファ", "100712": "ユリシス"}
+SCRAPER_TO_SOURCE = {"alpha": "アルファ", "ulysses": "ユリシス"}
 
 
 def build_records(details: list, infos: dict) -> list:
@@ -199,7 +199,7 @@ def build_records(details: list, infos: dict) -> list:
         # AgentName = agency-level assignment (use for internal-manager filtering)
         # GroupManagerName = sub-group leader (often external like HIKE's m.kagami)
         manager = d.get("AgentName") or d.get("GroupManagerName") or ""
-        agency_id = str(d.get("AgencyID", ""))
+        scraper_agency = d.get("_scraperAgency", "")
         records.append({
             "anchorId": anchor_id,
             "nickname": info.get("nickname", ""),
@@ -217,8 +217,7 @@ def build_records(details: list, infos: dict) -> list:
             "manager": manager,
             "managerRaw": d.get("GroupManagerName", ""),
             "agent": d.get("AgentName", ""),
-            "agencyId": agency_id,
-            "source": AGENCY_SOURCE.get(agency_id, agency_id),
+            "source": SCRAPER_TO_SOURCE.get(scraper_agency, scraper_agency),
             "isCurrentAgency": d.get("IsCurrentAgencyAnchor", False),
         })
 
@@ -276,7 +275,8 @@ def build_livers_json(records: list, updated_at: str) -> dict:
 
 def scrape_one_agency(p, name: str, storage_path: Path, headless: bool) -> Tuple[list, dict]:
     """Launch browser with the given session, fetch all creators for that agency.
-    Returns (details, infos). Refreshes storage file to keep cookies alive."""
+    Returns (details, infos). Refreshes storage file to keep cookies alive.
+    Tags each detail with _scraperAgency since AgencyID isn't in this API response."""
     browser = p.chromium.launch(headless=headless)
     context = browser.new_context(storage_state=str(storage_path), locale="ja-JP")
     page = context.new_page()
@@ -286,8 +286,9 @@ def scrape_one_agency(p, name: str, storage_path: Path, headless: bool) -> Tuple
         sub_job_id = fetch_settle_sub_job_id(page, month)
         print(f"[{name}] SettleSubJobID={sub_job_id}")
         details, infos = fetch_all_by_ui(page)
+        for d in details:
+            d["_scraperAgency"] = name
         print(f"[{name}] fetched {len(details)} creators")
-        # Refresh session state (cookies may rotate)
         context.storage_state(path=str(storage_path))
         return details, infos
     finally:
