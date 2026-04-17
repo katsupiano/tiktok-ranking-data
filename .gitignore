@@ -1,7 +1,8 @@
 storage_state.json
-ranking_realtime_*.json
+/ranking_realtime_*.json
 out/
 __pycache__/
 *.pyc
 .venv/
 .env
+!docs/ranking_realtime_*.json
