@@ -31,8 +31,8 @@ jobs:
           pip install -r requirements.txt
           playwright install --with-deps chromium
 
-      - name: Restore storage state from secret
-        run: echo "${{ secrets.SESSION_STATE_B64 }}" | base64 -d > storage_state.json
+      - name: Restore storage state from secret (gzip+base64)
+        run: echo "${{ secrets.SESSION_STATE_B64 }}" | base64 -d | gunzip > storage_state.json
         shell: bash
 
       - name: Run scraper
