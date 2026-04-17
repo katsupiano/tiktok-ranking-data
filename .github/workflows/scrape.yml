@@ -47,10 +47,9 @@ jobs:
           fi
         shell: bash
 
-      - name: Run scraper (livers only — internal handled separately later)
+      - name: Run scraper (both livers and internal feeds)
         env:
           OUTPUT_DIR: docs
-          OUTPUT_INTERNAL: "0"
           HEADLESS: "1"
         run: python3 scrape.py
 

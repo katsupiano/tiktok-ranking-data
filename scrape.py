@@ -177,9 +177,11 @@ def fetch_all_by_ui(page) -> Tuple[list, dict]:
     return all_details, all_infos
 
 
+AGENCY_SOURCE = {"101020": "アルファ", "100712": "ユリシス"}
+
+
 def build_records(details: list, infos: dict) -> list:
     """Merge detail + info, dedupe by AnchorID, compute rank by TotalDiamonds desc."""
-    # Dedupe — prefer records where IsCurrentAgencyAnchor=true (home agency)
     by_id: dict = {}
     for d in details:
         aid = d.get("AnchorID")
@@ -197,6 +199,7 @@ def build_records(details: list, infos: dict) -> list:
         # AgentName = agency-level assignment (use for internal-manager filtering)
         # GroupManagerName = sub-group leader (often external like HIKE's m.kagami)
         manager = d.get("AgentName") or d.get("GroupManagerName") or ""
+        agency_id = str(d.get("AgencyID", ""))
         records.append({
             "anchorId": anchor_id,
             "nickname": info.get("nickname", ""),
@@ -214,6 +217,8 @@ def build_records(details: list, infos: dict) -> list:
             "manager": manager,
             "managerRaw": d.get("GroupManagerName", ""),
             "agent": d.get("AgentName", ""),
+            "agencyId": agency_id,
+            "source": AGENCY_SOURCE.get(agency_id, agency_id),
             "isCurrentAgency": d.get("IsCurrentAgencyAnchor", False),
         })
 
