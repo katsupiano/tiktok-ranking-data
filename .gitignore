@@ -1,7 +1,6 @@
 storage_state.json
 ranking_realtime_*.json
 out/
-docs/
 __pycache__/
 *.pyc
 .venv/
