@@ -60,8 +60,19 @@ jobs:
           git add docs/
           if git diff --cached --quiet; then
             echo "No changes to commit"
-          else
-            git commit -m "chore: update ranking $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push
+            exit 0
           fi
+          git commit -m "chore: update ranking $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          # Retry push with rebase on conflict (concurrent runs can race)
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "Pushed on attempt $i"
+              exit 0
+            fi
+            echo "Push failed attempt $i, rebasing and retrying…"
+            git pull --rebase origin main
+            sleep 2
+          done
+          echo "Push failed after 5 attempts"
+          exit 1
 
