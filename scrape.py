@@ -255,12 +255,16 @@ def display_manager(manager_raw: str) -> Optional[str]:
 
 
 def build_internal_json(records: list, updated_at: str) -> dict:
-    """All creators (filtered to active agency), with manager info."""
+    """All creators (active agency). Includes livers-excluded users with a flag
+    so the internal dashboard can show them but mark/hide via filter."""
     filtered = [
-        {**r, "managerDisplay": display_manager(r["manager"])}
+        {
+            **r,
+            "managerDisplay": display_manager(r["manager"]),
+            "excludedFromLivers": r["username"] in EXCLUDED_USERS,
+        }
         for r in records
         if r["isCurrentAgency"]
-        and r["username"] not in EXCLUDED_USERS
     ]
     return {
         "generatedAt": updated_at,
