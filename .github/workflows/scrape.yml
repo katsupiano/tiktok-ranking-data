@@ -2,10 +2,11 @@ name: Scrape Backstage Ranking
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # every 5 minutes (GitHub Actions minimum)
-  workflow_dispatch:          # allow manual runs
+    # Every 90 minutes (16 runs/day). Split because cron minute field is 0-59.
+    - cron: "0 0,3,6,9,12,15,18,21 * * *"
+    - cron: "30 1,4,7,10,13,16,19,22 * * *"
+  workflow_dispatch:
 
-# Prevent overlapping runs
 concurrency:
   group: scrape
   cancel-in-progress: false
@@ -16,7 +17,7 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -26,34 +27,42 @@ jobs:
           python-version: "3.11"
           cache: "pip"
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-chromium-1.58.0
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           playwright install --with-deps chromium
 
       - name: Restore storage state — alpha (required)
-        run: echo "${{ secrets.SESSION_STATE_B64 }}" | base64 -d | gunzip > storage_state.json
+        env:
+          B64: ${{ secrets.SESSION_STATE_B64 }}
+        run: printf '%s' "$B64" | base64 -d | gunzip > storage_state.json
         shell: bash
 
       - name: Restore storage state — ulysses (optional)
         env:
-          ULYSSES: ${{ secrets.SESSION_STATE_ULYSSES_B64 }}
+          B64: ${{ secrets.SESSION_STATE_ULYSSES_B64 }}
         run: |
-          if [ -n "$ULYSSES" ]; then
-            echo "$ULYSSES" | base64 -d | gunzip > storage_state_ulysses.json
+          if [ -n "$B64" ]; then
+            printf '%s' "$B64" | base64 -d | gunzip > storage_state_ulysses.json
             echo "ulysses session restored"
           else
-            echo "ulysses session not configured yet — scraper will skip"
+            echo "ulysses session not configured — scraper will skip"
           fi
         shell: bash
 
-      - name: Run scraper (both livers and internal feeds)
+      - name: Run scraper (writes internal + livers to docs/)
         env:
           OUTPUT_DIR: docs
           HEADLESS: "1"
         run: python3 scrape.py
 
-      - name: Commit updated JSON
+      - name: Commit updated JSON (internal stays in private repo)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -63,7 +72,6 @@ jobs:
             exit 0
           fi
           git commit -m "chore: update ranking $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          # Retry push with rebase on conflict (concurrent runs can race)
           for i in 1 2 3 4 5; do
             if git push; then
               echo "Pushed on attempt $i"
@@ -76,3 +84,36 @@ jobs:
           echo "Push failed after 5 attempts"
           exit 1
 
+      - name: Publish livers JSON to public feed repo
+        env:
+          PAT: ${{ secrets.PUBLISH_PAT }}
+        run: |
+          if [ -z "$PAT" ]; then
+            echo "PUBLISH_PAT not set — skipping public feed publish"
+            exit 0
+          fi
+          rm -rf feed
+          git clone --depth 1 "https://x-access-token:${PAT}@github.com/katsupiano/tiktok-ranking-livers-feed.git" feed
+          mkdir -p feed/docs
+          cp docs/ranking_realtime_livers.json feed/docs/
+          cp docs/ranking_realtime_livers_*.json feed/docs/ 2>/dev/null || true
+          cd feed
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if git diff --cached --quiet; then
+            echo "No livers changes to publish"
+            exit 0
+          fi
+          git commit -m "chore: update livers $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "Published on attempt $i"
+              exit 0
+            fi
+            echo "Push failed attempt $i, rebasing and retrying…"
+            git pull --rebase
+            sleep 2
+          done
+          echo "Public push failed after 5 attempts"
+          exit 1
