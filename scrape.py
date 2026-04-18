@@ -22,8 +22,13 @@ from playwright.sync_api import sync_playwright
 
 BASE = Path(__file__).parent
 OUT_DIR = Path(os.environ.get("OUTPUT_DIR", BASE))
+# Latest files (always current month)
 OUT_INTERNAL = OUT_DIR / "ranking_realtime_internal.json"
 OUT_LIVERS = OUT_DIR / "ranking_realtime_livers.json"
+# Per-month archives written alongside. Once a month rolls over, its file freezes
+# (scraper starts writing to the new month's file) → historical snapshot preserved.
+def archive_path(prefix: str, yyyymm: str) -> Path:
+    return OUT_DIR / f"{prefix}_{yyyymm}.json"
 
 # Agencies to scrape — each with its own Backstage session file.
 # Alpha=101020 (bcode), Ulysses=100712 (grove). Add more here if needed.
@@ -343,14 +348,22 @@ def main():
     livers = build_livers_json(records, updated_at)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    month = current_month_yyyymm()
     write_internal = os.environ.get("OUTPUT_INTERNAL", "1") != "0"
+
+    internal_str = json.dumps(internal, ensure_ascii=False, indent=2)
+    livers_str = json.dumps(livers, ensure_ascii=False, indent=2)
+
     if write_internal:
-        OUT_INTERNAL.write_text(json.dumps(internal, ensure_ascii=False, indent=2))
-        print(f"[main] wrote {OUT_INTERNAL.name} ({internal['totalCount']} creators, {internal['liveNow']} live)")
+        OUT_INTERNAL.write_text(internal_str)
+        archive_path("ranking_realtime_internal", month).write_text(internal_str)
+        print(f"[main] wrote internal ({internal['totalCount']} creators, {internal['liveNow']} live) + archive {month}")
     else:
         print(f"[main] skipped internal (OUTPUT_INTERNAL=0): would be {internal['totalCount']} creators, {internal['liveNow']} live")
-    OUT_LIVERS.write_text(json.dumps(livers, ensure_ascii=False, indent=2))
-    print(f"[main] wrote {OUT_LIVERS.name} (top {len(livers['creators'])})")
+
+    OUT_LIVERS.write_text(livers_str)
+    archive_path("ranking_realtime_livers", month).write_text(livers_str)
+    print(f"[main] wrote livers (top {len(livers['creators'])}) + archive {month}")
 
 
 if __name__ == "__main__":
