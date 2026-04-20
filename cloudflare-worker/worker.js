@@ -74,6 +74,6 @@ export default {
         { status: 502 },
       );
     }
-    return new Response("Dispatched", { status: 204 });
+    return new Response("Dispatched\n", { status: 200 });
   },
 };
