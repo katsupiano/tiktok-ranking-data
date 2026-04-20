@@ -1,0 +1,13 @@
+name = "tiktok-ranking-cron"
+main = "worker.js"
+compatibility_date = "2026-04-20"
+
+# Every 90 minutes (16 fires/day). Two crons because minute field is 0-59.
+[triggers]
+crons = [
+  "0 0,3,6,9,12,15,18,21 * * *",
+  "30 1,4,7,10,13,16,19,22 * * *",
+]
+
+[observability]
+enabled = true
