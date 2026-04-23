@@ -45,7 +45,7 @@ REVENUE_URL_TMPL = f"https://live-backstage.tiktok.com/portal/revenue/task?Month
 API_PATH = "/creators/live/union_platform_api/agency/task/get_anchor_settle_detail_v2/"
 
 # Filtering rules (aligned with existing livers.html)
-EXCLUDED_USERS = {"minomomo0219"}
+EXCLUDED_USERS = {"minomomo0219", "rin.rin.738"}
 LIVERS_TOP_N = 20
 
 # API returns manager ID as email prefix (e.g. "yuki.sazanami" from yuki.sazanami@bcode.co.jp)
