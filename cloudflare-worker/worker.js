@@ -14,13 +14,22 @@
 
 const GITHUB_OWNER = "katsupiano";
 const GITHUB_REPO = "tiktok-ranking-data";
-const WORKFLOW_FILE = "scrape.yml";
+const WORKFLOW_MONTHLY = "scrape.yml";
+const WORKFLOW_EVENT = "scrape-event.yml";
 const WORKFLOW_REF = "main";
 
 const USER_AGENT = "tiktok-ranking-cron-worker";
 
-async function dispatchWorkflow(env, reason) {
-  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`;
+// Map cron → workflow file. Any cron whose minute field contains "*/10"
+// dispatches the 10-minute event scraper; everything else dispatches the
+// 90-minute monthly scraper.
+function workflowForCron(cron) {
+  if (cron && cron.startsWith("*/10 ")) return WORKFLOW_EVENT;
+  return WORKFLOW_MONTHLY;
+}
+
+async function dispatchWorkflow(env, workflowFile, reason) {
+  const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${workflowFile}/dispatches`;
   const resp = await fetch(url, {
     method: "POST",
     headers: {
@@ -36,11 +45,11 @@ async function dispatchWorkflow(env, reason) {
   if (resp.status !== 204) {
     const body = await resp.text();
     console.error(
-      `[${reason}] dispatch failed: HTTP ${resp.status} — ${body.slice(0, 500)}`,
+      `[${reason}] ${workflowFile} dispatch failed: HTTP ${resp.status} — ${body.slice(0, 500)}`,
     );
     return { ok: false, status: resp.status, body };
   }
-  console.log(`[${reason}] dispatch OK (204)`);
+  console.log(`[${reason}] ${workflowFile} dispatch OK (204)`);
   return { ok: true, status: 204 };
 }
 
@@ -49,11 +58,12 @@ export default {
    * Scheduled cron handler — fires at times defined in wrangler.toml triggers.crons.
    */
   async scheduled(event, env, ctx) {
-    ctx.waitUntil(dispatchWorkflow(env, `cron:${event.cron}`));
+    const workflowFile = workflowForCron(event.cron);
+    ctx.waitUntil(dispatchWorkflow(env, workflowFile, `cron:${event.cron}`));
   },
 
   /**
-   * HTTP handler — manual trigger via `/?key=<TRIGGER_KEY>`.
+   * HTTP handler — manual trigger via `/?key=<TRIGGER_KEY>[&wf=event|monthly]`.
    */
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -67,13 +77,16 @@ export default {
       return new Response("Forbidden", { status: 403 });
     }
 
-    const result = await dispatchWorkflow(env, "manual");
+    const wf = url.searchParams.get("wf");
+    const workflowFile = wf === "event" ? WORKFLOW_EVENT : WORKFLOW_MONTHLY;
+
+    const result = await dispatchWorkflow(env, workflowFile, "manual");
     if (!result.ok) {
       return new Response(
         `GitHub dispatch failed: ${result.status}\n${result.body || ""}`,
         { status: 502 },
       );
     }
-    return new Response("Dispatched\n", { status: 200 });
+    return new Response(`Dispatched ${workflowFile}\n`, { status: 200 });
   },
 };
