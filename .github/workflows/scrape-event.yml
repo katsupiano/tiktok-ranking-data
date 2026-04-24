@@ -1,0 +1,112 @@
+name: Scrape Event Ranking (NEW STAR CUP)
+
+on:
+  schedule:
+    # Every 10 minutes while event is active (event runs 5-10, 15-20, 25-30 of each month,
+    # but cron always-on is simplest; scraper fast-exits if nothing to update)
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+    inputs:
+      activity_id:
+        description: "Backstage Activity ID (override)"
+        required: false
+        default: "7632234270890672135"
+      slug:
+        description: "Output slug (filename base)"
+        required: false
+        default: "newstarcup"
+
+concurrency:
+  group: scrape-event
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-event:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      ACTIVITY_ID: ${{ github.event.inputs.activity_id || '7632234270890672135' }}
+      SLUG: ${{ github.event.inputs.slug || 'newstarcup' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-chromium-1.58.0
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: Restore storage state — alpha
+        env:
+          B64: ${{ secrets.SESSION_STATE_B64 }}
+        run: printf '%s' "$B64" | base64 -d | gunzip > storage_state.json
+        shell: bash
+
+      - name: Run event scraper
+        env:
+          OUTPUT_DIR: docs
+          HEADLESS: "1"
+        run: python3 scrape_event.py "$ACTIVITY_ID" --slug="$SLUG"
+
+      - name: Commit internal snapshot (private repo)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/${SLUG}*.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "chore: update ${SLUG} $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in 1 2 3 4 5; do
+            if git push; then exit 0; fi
+            echo "Push attempt $i failed, rebasing…"
+            git pull --rebase origin main
+            sleep 2
+          done
+          exit 1
+
+      - name: Publish to public feed repo
+        env:
+          PAT: ${{ secrets.PUBLISH_PAT }}
+        run: |
+          if [ -z "$PAT" ]; then
+            echo "PUBLISH_PAT not set — skipping"
+            exit 0
+          fi
+          rm -rf feed
+          git clone --depth 1 "https://x-access-token:${PAT}@github.com/katsupiano/tiktok-ranking-livers-feed.git" feed
+          mkdir -p feed/docs
+          # Latest + stage archives for this slug
+          cp docs/${SLUG}.json feed/docs/ 2>/dev/null || true
+          cp docs/${SLUG}_*.json feed/docs/ 2>/dev/null || true
+          cd feed
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if git diff --cached --quiet; then
+            echo "No public changes"
+            exit 0
+          fi
+          git commit -m "chore: update ${SLUG} $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in 1 2 3 4 5; do
+            if git push; then exit 0; fi
+            echo "Public push attempt $i failed, rebasing…"
+            git pull --rebase
+            sleep 2
+          done
+          exit 1

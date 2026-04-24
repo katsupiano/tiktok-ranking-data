@@ -1,9 +1,12 @@
 storage_state.json
 storage_state_*.json
 /ranking_realtime_*.json
+/newstarcup*.json
 out/
 __pycache__/
 *.pyc
 .venv/
 .env
+probe_*.py
 !docs/ranking_realtime_*.json
+!docs/newstarcup*.json
