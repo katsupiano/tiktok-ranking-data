@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-25T07:31:39+09:00",
+  "generatedAt": "2026-04-25T07:41:38+09:00",
   "eventId": "7632234270890672135",
   "eventName": "NEW STAR CUP (4/25-30)",
   "eventStart": "2026-04-25T00:00:00+09:00",
@@ -9,8 +9,8 @@
   "stageEnd": "2026-04-30T23:59:59+09:00",
   "totalParticipants": 67,
   "liveNow": 0,
-  "totalDiamonds": 13669,
-  "totalScores": 2723,
+  "totalDiamonds": 13784,
+  "totalScores": 2842,
   "creators": [
     {
       "rank": 1,
@@ -34,7 +34,7 @@
       "hostId": "6858286439382303745",
       "username": "musawoo",
       "nickname": "むさを",
-      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/a70332de56a6f4a15248c3d41a3423bf~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=638ee76f&x-expires=1777154400&x-signature=zpq9J0X3NeklobwpGJnGNLiSrnc%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/a70332de56a6f4a15248c3d41a3423bf~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=2c3efe35&x-expires=1777154400&x-signature=wq%2BD9ff0pz%2FHmNjVJ4HsaGAz1fU%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
       "isLive": false,
       "score": 519,
       "diamonds": 519,
@@ -85,7 +85,7 @@
       "hostId": "7264546990263632903",
       "username": "yoisaki_99",
       "nickname": "宵崎アクア",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/4336bcf65c14837ed9079533bb73fb03~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=53c5964c&x-expires=1777154400&x-signature=rtsIw8OHSSRnK2IzWL%2BI8%2FH8bM4%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/4336bcf65c14837ed9079533bb73fb03~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=187223ec&x-expires=1777154400&x-signature=yEQdwsQADS3gEcz7CnVffg8M4vY%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
       "isLive": false,
       "score": 232,
       "diamonds": 232,
@@ -116,6 +116,23 @@
     },
     {
       "rank": 7,
+      "hostId": "7071546951715701762",
+      "username": "yosshi_aiueo",
+      "nickname": "よっしー🥞💛新人王参戦🙋‍♀️✨",
+      "avatar": "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/ba3638de99ff52d8adc1bd8bdccddcd5~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=4a320abd&x-expires=1777154400&x-signature=E5OdPI33GqqjOleuNikcFXPLaSQ%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "isLive": false,
+      "score": 191,
+      "diamonds": 191,
+      "pkDiamond": 0,
+      "crossCountryPkDiamond": 0,
+      "pkCount": 0,
+      "winnerPkCount": 0,
+      "liveDurationSec": 4427,
+      "validLiveDayCount": 0,
+      "distanceFromLastPlace": 0
+    },
+    {
+      "rank": 8,
       "hostId": "7520763383801725969",
       "username": "chokonekolove",
       "nickname": "チョコねこ4児ママ🍫🐈‍⬛",
@@ -127,12 +144,12 @@
       "crossCountryPkDiamond": 0,
       "pkCount": 0,
       "winnerPkCount": 0,
-      "liveDurationSec": 7855,
+      "liveDurationSec": 8136,
       "validLiveDayCount": 0,
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 8,
+      "rank": 9,
       "hostId": "7627445532236186640",
       "username": "aimindayo",
       "nickname": "あいみん🐶☀️夢を叶えるママ",
@@ -145,23 +162,6 @@
       "pkCount": 0,
       "winnerPkCount": 0,
       "liveDurationSec": 1142,
-      "validLiveDayCount": 0,
-      "distanceFromLastPlace": 0
-    },
-    {
-      "rank": 9,
-      "hostId": "7071546951715701762",
-      "username": "yosshi_aiueo",
-      "nickname": "よっしー🥞💛新人王参戦🙋‍♀️✨",
-      "avatar": "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/ba3638de99ff52d8adc1bd8bdccddcd5~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=4a320abd&x-expires=1777154400&x-signature=E5OdPI33GqqjOleuNikcFXPLaSQ%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
-      "isLive": false,
-      "score": 80,
-      "diamonds": 80,
-      "pkDiamond": 0,
-      "crossCountryPkDiamond": 0,
-      "pkCount": 0,
-      "winnerPkCount": 0,
-      "liveDurationSec": 3904,
       "validLiveDayCount": 0,
       "distanceFromLastPlace": 0
     },
@@ -206,18 +206,35 @@
       "nickname": "riyuna",
       "avatar": "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/5708f302a4f761f56cf33bb97c2b3f6b~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=1a58ac5e&x-expires=1777154400&x-signature=keMn7pifOO8fPW5jj6BC8ywJwgE%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
       "isLive": false,
-      "score": 6,
-      "diamonds": 6,
+      "score": 7,
+      "diamonds": 7,
       "pkDiamond": 0,
       "crossCountryPkDiamond": 0,
       "pkCount": 0,
       "winnerPkCount": 0,
-      "liveDurationSec": 2749,
+      "liveDurationSec": 3261,
       "validLiveDayCount": 0,
       "distanceFromLastPlace": 0
     },
     {
       "rank": 13,
+      "hostId": "7319111772143862785",
+      "username": "sugi_no.1_mikan",
+      "nickname": "杉ちゃんのみかん🍊",
+      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/e37e51ab1e9b19725563b3a43c62d35a~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=665d508b&x-expires=1777154400&x-signature=BgpsntfvjwZQNppQcjRHoJhPESI%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "isLive": false,
+      "score": 7,
+      "diamonds": 7,
+      "pkDiamond": 0,
+      "crossCountryPkDiamond": 0,
+      "pkCount": 0,
+      "winnerPkCount": 0,
+      "liveDurationSec": 594,
+      "validLiveDayCount": 0,
+      "distanceFromLastPlace": 0
+    },
+    {
+      "rank": 14,
       "hostId": "7624698415494710292",
       "username": "llatte_15",
       "nickname": "ラテ",
@@ -234,7 +251,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 14,
+      "rank": 15,
       "hostId": "7624556925392913429",
       "username": "arico.316",
       "nickname": "arico.316",
@@ -251,28 +268,11 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 15,
+      "rank": 16,
       "hostId": "7623966308036264968",
       "username": "0121_rina",
       "nickname": "りな",
-      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/45a11bc97615e2926c86252a4a012056~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=989ef95a&x-expires=1777240800&x-signature=0VXKYLQgy1m25i6E9UyWBj%2B8%2FG4%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
-      "isLive": false,
-      "score": 0,
-      "diamonds": 0,
-      "pkDiamond": 0,
-      "crossCountryPkDiamond": 0,
-      "pkCount": 0,
-      "winnerPkCount": 0,
-      "liveDurationSec": 0,
-      "validLiveDayCount": 0,
-      "distanceFromLastPlace": 0
-    },
-    {
-      "rank": 16,
-      "hostId": "7623956044977259540",
-      "username": "naokibono_violinprince",
-      "nickname": "ヴァイオリン王子🤴ぼーちゃん🎻",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/4f2bbd075ed4896916b6af5983f0f0c6~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=e5982d21&x-expires=1777154400&x-signature=LijjlzwIiKMzZ9W9a5f1%2BgPaEf8%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/45a11bc97615e2926c86252a4a012056~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=03deb738&x-expires=1777154400&x-signature=ssQDNU7eeNwMJFRIDYpthAW%2BUUY%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -286,10 +286,10 @@
     },
     {
       "rank": 17,
-      "hostId": "7623313151074206738",
-      "username": "fujii_risa",
-      "nickname": "藤井りさ",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/eda79debab038e772fc2bec5838b47c9~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=9628718a&x-expires=1777240800&x-signature=HALHfrVI49HoIziPIC5iCvnueeM%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "hostId": "7623956044977259540",
+      "username": "naokibono_violinprince",
+      "nickname": "ヴァイオリン王子🤴ぼーちゃん🎻",
+      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/4f2bbd075ed4896916b6af5983f0f0c6~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=9a767c13&x-expires=1777240800&x-signature=EchF2tzSmz0rAwQCufKIeAEStTg%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -303,6 +303,23 @@
     },
     {
       "rank": 18,
+      "hostId": "7623313151074206738",
+      "username": "fujii_risa",
+      "nickname": "藤井りさ",
+      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/eda79debab038e772fc2bec5838b47c9~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=4d9ec233&x-expires=1777154400&x-signature=kc6VJDnloXitdJM0sqAsAz57jZ8%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "isLive": false,
+      "score": 0,
+      "diamonds": 0,
+      "pkDiamond": 0,
+      "crossCountryPkDiamond": 0,
+      "pkCount": 0,
+      "winnerPkCount": 0,
+      "liveDurationSec": 0,
+      "validLiveDayCount": 0,
+      "distanceFromLastPlace": 0
+    },
+    {
+      "rank": 19,
       "hostId": "7623202175564760084",
       "username": "sho_pi821",
       "nickname": "🌺🧸しょこぴー🧸🌺",
@@ -319,7 +336,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 19,
+      "rank": 20,
       "hostId": "7621048048416588808",
       "username": "nemuiyo_nyamo",
       "nickname": "ねむいよ💫😴@Vライバー",
@@ -336,7 +353,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 20,
+      "rank": 21,
       "hostId": "7620694714290832385",
       "username": "meruchora",
       "nickname": "めるちょら",
@@ -353,11 +370,11 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 21,
+      "rank": 22,
       "hostId": "7620677053466444821",
       "username": "slowdancer73",
       "nickname": "SLOWDANCER",
-      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/271ddca6c02c7ba60a3e2a96595ba23a~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=8fa52af2&x-expires=1777154400&x-signature=ZeYfzd%2BkFIgYKpWSQb7UGfcdn60%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/271ddca6c02c7ba60a3e2a96595ba23a~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=ec2c279b&x-expires=1777154400&x-signature=kFzIkqB2IXNKTLuVEbv91zs3dz0%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -370,7 +387,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 22,
+      "rank": 23,
       "hostId": "7615225224174830613",
       "username": "kirarin_0608",
       "nickname": "きらりん⭐️🦷",
@@ -387,11 +404,11 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 23,
+      "rank": 24,
       "hostId": "7614654444915196944",
       "username": "luna_type_001",
       "nickname": "ルナ@新人AIライバー🌙",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/94d462280ad634052c98ebfc63f325e5~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=6c92be78&x-expires=1777240800&x-signature=vWmw1KdU4VjWSV4qCzmKmOSr%2B4Y%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/94d462280ad634052c98ebfc63f325e5~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=0aff740a&x-expires=1777154400&x-signature=9uSSXdXcOMrzn7KfmuOeDOuRh3I%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -404,7 +421,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 24,
+      "rank": 25,
       "hostId": "7610302250477192212",
       "username": "rei_shizuki_",
       "nickname": "紫月レイ👑🌙",
@@ -421,7 +438,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 25,
+      "rank": 26,
       "hostId": "7608401823473353748",
       "username": "wacolacrosse",
       "nickname": "WACO/わこ🥍",
@@ -438,7 +455,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 26,
+      "rank": 27,
       "hostId": "7607369833160016916",
       "username": "paikokyoutabe",
       "nickname": "user16264067192",
@@ -455,7 +472,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 27,
+      "rank": 28,
       "hostId": "7603854517763032082",
       "username": "mogumogu3_",
       "nickname": "さん✌🏻️´-",
@@ -472,7 +489,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 28,
+      "rank": 29,
       "hostId": "7591505839983854613",
       "username": "milk.tea3798",
       "nickname": "まぴ🥔❤️",
@@ -489,7 +506,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 29,
+      "rank": 30,
       "hostId": "7590911593979757569",
       "username": "kanetsu_tosei",
       "nickname": "🍑💫金津桃生（KanetsuTosei）💫🍑",
@@ -506,28 +523,11 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 30,
+      "rank": 31,
       "hostId": "7587036592670606337",
       "username": "kotoha_sakurami",
       "nickname": "桜三ことは",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/aca067d94270da6e922772045365d5d3~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=e7466950&x-expires=1777154400&x-signature=dQKHxcFt6r8PzDhZ3WDQKrJTRCc%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
-      "isLive": false,
-      "score": 0,
-      "diamonds": 0,
-      "pkDiamond": 0,
-      "crossCountryPkDiamond": 0,
-      "pkCount": 0,
-      "winnerPkCount": 0,
-      "liveDurationSec": 0,
-      "validLiveDayCount": 0,
-      "distanceFromLastPlace": 0
-    },
-    {
-      "rank": 31,
-      "hostId": "7579250071590913025",
-      "username": "muiyui55",
-      "nickname": "muiのyui",
-      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/6cea4c4a6f6f03bb9b4f6d35e9d42b4e~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=9abfe967&x-expires=1777240800&x-signature=kpKPakfLyriPJQs557MfJYR2g1o%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/aca067d94270da6e922772045365d5d3~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=546f08ad&x-expires=1777154400&x-signature=3YiPc3L2WtNSpRLdZUhdJlNRqjM%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -541,6 +541,23 @@
     },
     {
       "rank": 32,
+      "hostId": "7579250071590913025",
+      "username": "muiyui55",
+      "nickname": "muiのyui",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/6cea4c4a6f6f03bb9b4f6d35e9d42b4e~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=899d77ec&x-expires=1777154400&x-signature=UJ0xdNwh3JtTdX5Hq7gfyFeXq6o%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "isLive": false,
+      "score": 0,
+      "diamonds": 0,
+      "pkDiamond": 0,
+      "crossCountryPkDiamond": 0,
+      "pkCount": 0,
+      "winnerPkCount": 0,
+      "liveDurationSec": 0,
+      "validLiveDayCount": 0,
+      "distanceFromLastPlace": 0
+    },
+    {
+      "rank": 33,
       "hostId": "7553303948532663314",
       "username": "takahaship_cafe",
       "nickname": "たかはし ぴぃ☕️☀️新人王団結🔥",
@@ -557,7 +574,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 33,
+      "rank": 34,
       "hostId": "7493102495850824705",
       "username": "yuluna117",
       "nickname": "ゆるな🎤😎新人王参戦🔥",
@@ -574,7 +591,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 34,
+      "rank": 35,
       "hostId": "7479303563379098642",
       "username": "asunyan_suzuhara",
       "nickname": "asunyan_suzuhara",
@@ -591,7 +608,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 35,
+      "rank": 36,
       "hostId": "7459817068541117448",
       "username": "key_newrekisinuma_ch",
       "nickname": "きー⛩️神社と歴史を語りたい",
@@ -608,7 +625,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 36,
+      "rank": 37,
       "hostId": "7447341791919588372",
       "username": "tabun_zettai",
       "nickname": "ふわふわふわこっʕᵔᴥᵔʔ",
@@ -625,7 +642,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 37,
+      "rank": 38,
       "hostId": "7426746213104354312",
       "username": "_asanyan",
       "nickname": "あさにゃん🐈‍⬛🥀",
@@ -642,7 +659,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 38,
+      "rank": 39,
       "hostId": "7366479708127724550",
       "username": "mko5125",
       "nickname": "🏌️‍♀️m@ko⛳️🏍️🎤",
@@ -659,7 +676,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 39,
+      "rank": 40,
       "hostId": "7365136515771089927",
       "username": "merubiyou0150",
       "nickname": "める🌿🫧/元美容ナース",
@@ -676,11 +693,11 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 40,
+      "rank": 41,
       "hostId": "7360587795478758418",
       "username": "mocousa___",
       "nickname": "もこ",
-      "avatar": "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/059be0129da0632d0a7258f56d9536aa~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=83f225e8&x-expires=1777154400&x-signature=8kGFDAGSfdmlV8W8ZpIuv%2B6MupY%3D&t=4d5b0474&ps=13740610&shp=d2876c74&shcp=9b759fb9&idc=my",
+      "avatar": "https://p77-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/059be0129da0632d0a7258f56d9536aa~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=44fce760&x-expires=1777240800&x-signature=COeeguLfbhF55PN2DaIZR3SnpnY%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -693,7 +710,7 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 41,
+      "rank": 42,
       "hostId": "7358483632594928656",
       "username": "qchan_room",
       "nickname": "Qちゃん",
@@ -710,28 +727,11 @@
       "distanceFromLastPlace": 0
     },
     {
-      "rank": 42,
+      "rank": 43,
       "hostId": "7324631147513054226",
       "username": "yu.live917",
       "nickname": "優",
       "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/3052ef5eeb711d432b57c959dfdf34c3~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=b8a77ab1&x-expires=1777240800&x-signature=lQUsBoOH8ISc928ZwN%2FfGA%2FARDg%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
-      "isLive": false,
-      "score": 0,
-      "diamonds": 0,
-      "pkDiamond": 0,
-      "crossCountryPkDiamond": 0,
-      "pkCount": 0,
-      "winnerPkCount": 0,
-      "liveDurationSec": 0,
-      "validLiveDayCount": 0,
-      "distanceFromLastPlace": 0
-    },
-    {
-      "rank": 43,
-      "hostId": "7319111772143862785",
-      "username": "sugi_no.1_mikan",
-      "nickname": "杉ちゃんのみかん🍊",
-      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/e37e51ab1e9b19725563b3a43c62d35a~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=dbb0c132&x-expires=1777240800&x-signature=En%2BFWR%2FhcPOnf%2B80MyF7qCXnY%2FY%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -765,7 +765,7 @@
       "hostId": "7286388059594540034",
       "username": "dr.matayoshi.cynthia",
       "nickname": "医師 又吉秀樹 【美容外科シンシア】",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/7ff1e5eaeb0044f0e2e7c497f08ae51b~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=66532709&x-expires=1777240800&x-signature=txwfP9ikY5uwy48O9k7CVqwXxKw%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/7ff1e5eaeb0044f0e2e7c497f08ae51b~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=ce6837c0&x-expires=1777240800&x-signature=tcfDSVtOgrKVWGi%2Bh5SOiro7Eg0%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -799,7 +799,7 @@
       "hostId": "7203139557667193858",
       "username": "toneko21",
       "nickname": "おとね",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/41430b024103a7125fdfea4e03d42571~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=ef3c3aef&x-expires=1777240800&x-signature=S0S0C63CnMGY2v5fkbFT437OznE%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/41430b024103a7125fdfea4e03d42571~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=ad574db5&x-expires=1777240800&x-signature=ROVLkdGmP76e96zJjyK58rvPnsY%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -901,7 +901,7 @@
       "hostId": "7116446403966387201",
       "username": "kakky198",
       "nickname": "カッキー🧑🏻‍🌾🛠️",
-      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/43406a65311c1ecbd4fdd9aefb1b77c9~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=1c968a22&x-expires=1777240800&x-signature=JL6uTSRyIKPfghAwqo3rhp9WgzA%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/43406a65311c1ecbd4fdd9aefb1b77c9~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=c6c2a5e1&x-expires=1777240800&x-signature=HE8Zn1no1wB%2BMG%2Bygg1zebIbcgY%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -918,7 +918,7 @@
       "hostId": "7114218154025829378",
       "username": "yuino122",
       "nickname": "yuino🐇",
-      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/d568b063f423e7958d25c2742953c45e~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=68f01a34&x-expires=1777240800&x-signature=c5XKtsjEGiXlOlBw%2BOSw%2FKpePpI%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/d568b063f423e7958d25c2742953c45e~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=61016fa2&x-expires=1777240800&x-signature=%2Bn9mPXw2GoHBpC55Ufo4d0NjqjQ%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -1037,7 +1037,7 @@
       "hostId": "6656736402019696642",
       "username": "mugi__999",
       "nickname": "むぎｻﾝ🐐",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/2d911c4cc9e0c7dd1c886e0df2dae256~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=0fdae1a1&x-expires=1777240800&x-signature=tUy4BdgqBTUVZkBs36pv3DTMNCw%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/2d911c4cc9e0c7dd1c886e0df2dae256~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=6c3d1187&x-expires=1777240800&x-signature=VBB5dDkxNyISQAdDtqtzQW1A774%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
@@ -1088,7 +1088,7 @@
       "hostId": "6560258747339669505",
       "username": "aoiabc0412",
       "nickname": "カフェ店長aoi",
-      "avatar": "https://p16-common-sign.tiktokcdn.com/tos-alisg-avt-0068/108b2fc74870691cd7a5e25069b3e3aa~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=95b90e1f&x-expires=1777240800&x-signature=iGE%2BFVr3MOcLvnoPXin%2FnIilqV8%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
+      "avatar": "https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/108b2fc74870691cd7a5e25069b3e3aa~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=2c8f3cc8&x-expires=1777240800&x-signature=AoAvJpG5rc0WyZx4TKTSbmerJvg%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=d2876c74&idc=my",
       "isLive": false,
       "score": 0,
       "diamonds": 0,
