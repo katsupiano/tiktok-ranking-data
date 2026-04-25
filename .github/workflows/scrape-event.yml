@@ -80,18 +80,39 @@ jobs:
           done
           exit 1
 
-      - name: Publish to public feed repo
+      - name: Publish to Cloudflare R2 (public bucket)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_BUCKET: tiktok-ranking-feed
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "CLOUDFLARE_API_TOKEN not set — skipping R2 publish"
+            exit 0
+          fi
+          npm install --global wrangler@4.85.0 --silent
+          # Upload latest + all stage archives for this slug
+          for f in docs/${SLUG}.json docs/${SLUG}_*.json; do
+            [ -f "$f" ] || continue
+            key=$(basename "$f")
+            echo "uploading → r2://${R2_BUCKET}/${key}"
+            wrangler r2 object put "${R2_BUCKET}/${key}" \
+              --file "$f" \
+              --content-type "application/json" \
+              --remote
+          done
+
+      - name: Publish to public feed repo (fallback during R2 transition)
         env:
           PAT: ${{ secrets.PUBLISH_PAT }}
         run: |
           if [ -z "$PAT" ]; then
-            echo "PUBLISH_PAT not set — skipping"
+            echo "PUBLISH_PAT not set — skipping GH pages mirror"
             exit 0
           fi
           rm -rf feed
           git clone --depth 1 "https://x-access-token:${PAT}@github.com/katsupiano/tiktok-ranking-livers-feed.git" feed
           mkdir -p feed/docs
-          # Latest + stage archives for this slug
           cp docs/${SLUG}.json feed/docs/ 2>/dev/null || true
           cp docs/${SLUG}_*.json feed/docs/ 2>/dev/null || true
           cd feed
