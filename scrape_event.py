@@ -125,15 +125,23 @@ def scrape(activity_id: str, headless: bool = True) -> dict:
             pass
         time.sleep(5)
 
-        # Click ステージ tab and wait for the first host_list response
-        try:
-            with page.expect_response(
-                lambda r: API_HOST_LIST in r.url and r.status == 200,
-                timeout=20000,
-            ):
-                page.get_by_role("tab", name="ステージ").click(timeout=10000)
-        except Exception as e:
-            print(f"[ui] stage tab click/wait err: {e}")
+        # Click ステージ tab and wait for the first host_list response.
+        # Backstage UI sometimes takes longer to mount the tab — retry up to 3 times.
+        stage_ok = False
+        for attempt in range(1, 4):
+            try:
+                with page.expect_response(
+                    lambda r: API_HOST_LIST in r.url and r.status == 200,
+                    timeout=25000,
+                ):
+                    page.get_by_role("tab", name="ステージ").click(timeout=15000)
+                stage_ok = True
+                break
+            except Exception as e:
+                print(f"[ui] stage tab attempt {attempt} err: {e}")
+                page.wait_for_timeout(3000)
+        if not stage_ok:
+            print("[ui] WARN: failed to load stage tab after 3 attempts")
 
         # Pick current stage's ComponentID from info_body (fires on page load)
         cid, component_meta = (None, None)
@@ -304,6 +312,19 @@ def main():
     stage_start = out.get("stageStart") or ""
     stage_key = stage_start[:10].replace("-", "") if stage_start else datetime.now(JST).strftime("%Y%m%d")
     archive = OUT_DIR / f"{slug}_{stage_key}.json"
+
+    # Refuse to overwrite a previously-good snapshot with empty data — a transient
+    # UI failure shouldn't wipe the live ranking. Only skip when an existing file
+    # has participants AND we just got 0; first-ever runs (no prior file) still write.
+    if out["totalParticipants"] == 0 and latest.exists():
+        try:
+            prev = json.loads(latest.read_text())
+            if int(prev.get("totalParticipants", 0) or 0) > 0:
+                print(f"❌ scrape returned 0 participants but existing snapshot has "
+                      f"{prev.get('totalParticipants')} — refusing to overwrite")
+                sys.exit(2)
+        except Exception:
+            pass
 
     out_str = json.dumps(out, ensure_ascii=False, indent=2)
     latest.write_text(out_str)
