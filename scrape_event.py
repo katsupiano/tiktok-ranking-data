@@ -220,15 +220,20 @@ def build_output(raw: dict) -> dict:
 
     creators = []
     for hid, r in rows_by_host.items():
-        ubi = r.get("UserBaseInfo") or hosts_base.get(hid) or {}
+        # RecordList[*].UserBaseInfo has the basics (display_id/avatar/nickname).
+        # HostBaseInfoMap entry has additional live-state fields (IsLive, CreatorID, ...).
+        # Merge with host_base providing the live fields, ubi taking priority for renames.
+        ubi = r.get("UserBaseInfo") or {}
+        host_base = hosts_base.get(hid) or {}
+        merged = {**host_base, **ubi}
         live_seconds = int(r.get("LiveDuration", 0) or 0)
         creators.append({
             "rank": int(r.get("HostRank", 0) or 0),
             "hostId": hid,
-            "username": ubi.get("display_id") or "",
-            "nickname": ubi.get("nickname") or "",
-            "avatar": ubi.get("avatar") or "",
-            "isLive": bool(ubi.get("IsLive", False)),
+            "username": merged.get("display_id") or "",
+            "nickname": merged.get("nickname") or "",
+            "avatar": merged.get("avatar") or "",
+            "isLive": bool(merged.get("IsLive", False)),
             "score": int(r.get("ActivityScores", 0) or 0),
             "diamonds": int(r.get("Diamonds", 0) or 0),
             "pkDiamond": int(r.get("PKDiamond", 0) or 0),
