@@ -71,7 +71,10 @@ JST = timezone(timedelta(hours=9))
 
 
 def current_month_yyyymm() -> str:
-    return datetime.now(JST).strftime("%Y%m")
+    """Backstage aggregates monthly in UTC (resets at JST 9:00 on the 1st = UTC 00:00).
+    So the active month must be derived from UTC, not JST. Otherwise during JST 0:00-8:59
+    on the 1st of a new month we'd query the new month while Backstage still serves prev month."""
+    return datetime.now(timezone.utc).strftime("%Y%m")
 
 
 def fetch_settle_sub_job_id(page, month: str) -> str:
@@ -254,7 +257,7 @@ def display_manager(manager_raw: str) -> Optional[str]:
     return name if name in INTERNAL_MANAGERS else None
 
 
-def build_internal_json(records: list, updated_at: str) -> dict:
+def build_internal_json(records: list, updated_at: str, month_yyyymm: str) -> dict:
     """All creators (active agency). Includes livers-excluded users with a flag
     so the internal dashboard can show them but mark/hide via filter."""
     filtered = [
@@ -268,6 +271,7 @@ def build_internal_json(records: list, updated_at: str) -> dict:
     ]
     return {
         "generatedAt": updated_at,
+        "month": f"{month_yyyymm[:4]}-{month_yyyymm[4:]}",  # UTC-based active month
         "totalCount": len(filtered),
         "activeCount": sum(1 for r in filtered if r["totalDiamonds"] > 0),
         "liveNow": sum(1 for r in filtered if r["isLive"]),
@@ -275,7 +279,7 @@ def build_internal_json(records: list, updated_at: str) -> dict:
     }
 
 
-def build_livers_json(records: list, updated_at: str) -> dict:
+def build_livers_json(records: list, updated_at: str, month_yyyymm: str) -> dict:
     """Top N visible to livers — only creators with internal manager, excluded users removed.
     Renumbers ranks 1..N within the filtered subset (displayRank) while preserving global rank."""
     filtered = [
@@ -289,6 +293,7 @@ def build_livers_json(records: list, updated_at: str) -> dict:
         r["displayRank"] = i + 1
     return {
         "generatedAt": updated_at,
+        "month": f"{month_yyyymm[:4]}-{month_yyyymm[4:]}",
         "topN": LIVERS_TOP_N,
         "creators": top_n,
     }
@@ -347,12 +352,12 @@ def main():
 
     records = build_records(all_details, all_infos)
     updated_at = datetime.now(JST).isoformat(timespec="seconds")
+    month = current_month_yyyymm()  # UTC-based; what Backstage considers "current"
 
-    internal = build_internal_json(records, updated_at)
-    livers = build_livers_json(records, updated_at)
+    internal = build_internal_json(records, updated_at, month)
+    livers = build_livers_json(records, updated_at, month)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    month = current_month_yyyymm()
     write_internal = os.environ.get("OUTPUT_INTERNAL", "1") != "0"
 
     internal_str = json.dumps(internal, ensure_ascii=False, indent=2)
