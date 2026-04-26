@@ -99,6 +99,7 @@ jobs:
             wrangler r2 object put "${R2_BUCKET}/${key}" \
               --file "$f" \
               --content-type "application/json" \
+              --cache-control "public, max-age=10" \
               --remote
           done
 
