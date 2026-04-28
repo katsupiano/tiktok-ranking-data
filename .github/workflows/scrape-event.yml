@@ -1,10 +1,8 @@
-name: Scrape Event Ranking (NEW STAR CUP)
+name: Scrape Event Ranking (NEW STAR CUP) [DISABLED — moved to tiktok-event-scraper]
 
+# Event scraper migrated to public repo katsupiano/tiktok-event-scraper to avoid
+# Actions free-tier limits. This workflow stays as a safety-net only (manual dispatch).
 on:
-  schedule:
-    # Every 10 minutes while event is active (event runs 5-10, 15-20, 25-30 of each month,
-    # but cron always-on is simplest; scraper fast-exits if nothing to update)
-    - cron: "*/10 * * * *"
   workflow_dispatch:
     inputs:
       activity_id:

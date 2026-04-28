@@ -4,12 +4,12 @@ compatibility_date = "2026-04-20"
 
 # Triggers:
 #   Monthly ranking: every 90 min (16/day), two crons because minute field is 0-59
-#   Event ranking (NEW STAR CUP etc.): every 10 min (144/day)
+# (Event scraper runs in tiktok-event-scraper public repo with its own GHA cron;
+#  CF Worker no longer dispatches event — would need a PAT covering both repos.)
 [triggers]
 crons = [
   "0 0,3,6,9,12,15,18,21 * * *",
   "30 1,4,7,10,13,16,19,22 * * *",
-  "*/10 * * * *",
 ]
 
 [observability]
