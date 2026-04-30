@@ -56,22 +56,24 @@ jobs:
           fi
         shell: bash
 
-      - name: Run scraper (writes internal + livers to docs/)
+      - name: Run scraper (livers only — internal disabled while repo is public)
         env:
           OUTPUT_DIR: docs
+          OUTPUT_INTERNAL: "0"
           HEADLESS: "1"
         run: python3 scrape.py
 
-      - name: Commit updated JSON (internal stays in private repo)
+      - name: Commit livers JSON only (internal must NEVER be committed while public)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/
+          rm -f docs/ranking_realtime_internal*.json
+          git add docs/ranking_realtime_livers*.json docs/index.html 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "chore: update ranking $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git commit -m "chore: update livers $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for i in 1 2 3 4 5; do
             if git push; then
               echo "Pushed on attempt $i"
